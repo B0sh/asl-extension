@@ -1,0 +1,112 @@
+{
+    "state": {
+        "prefix": "state",
+        "body": [
+            "state(\"${1:PROCESS_NAME}\", \"${2:VERSION_IDENTIFIER}\")",
+            "{",
+            "\t$3",
+            "}"
+        ],
+        "description": "Describes which game process the script is interested in."
+    },
+    "update": {
+        "prefix": "update",
+        "body": [
+            "update",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Generic Update"
+    },
+    "start": {
+        "prefix": "start",
+        "body": [
+            "start",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Automatic Timer Start"
+    },
+    "split": {
+        "prefix": "split",
+        "body": [
+            "split",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Automatic Splits"
+    },
+    "reset": {
+        "prefix": "reset",
+        "body": [
+            "reset",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Automatic Resets"
+    },
+    "isLoading": {
+        "prefix": "isLoading",
+        "body": [
+            "isLoading",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Load Time Removal"
+    },
+    "gameTime": {
+        "prefix": "gameTime",
+        "body": [
+            "gameTime",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Game Time"
+    },
+    "startup": {
+        "prefix": "startup",
+        "body": [
+            "startup",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Script Startup"
+    },
+    "shutdown": {
+        "prefix": "shutdown",
+        "body": [
+            "shutdown",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Script Shutdown"
+    },
+    "init": {
+        "prefix": "init",
+        "body": [
+            "init",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Script Initialization"
+    },
+    "exit": {
+        "prefix": "exit",
+        "body": [
+            "exit",
+            "{",
+            "\t$1",
+            "}"
+        ],
+        "description": "Game Exit"
+    }
+}

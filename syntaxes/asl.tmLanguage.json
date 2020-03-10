@@ -1,0 +1,198 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Auto Splitting Language",
+	"scopeName": "source.asl",
+	"patterns": [
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#state"
+		},
+		{
+			"include": "#action"
+		},
+		{
+			"include": "#action-code"
+		}
+
+	],
+	"repository": {
+		"state": {
+			"begin": "state",
+			"beginCaptures": {
+				"0": {
+					"name": "support.function.state.asl"
+				}
+
+			},
+			"end": "\\}",
+			"name": "meta.structure.state.asl",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#state-process"
+				},
+				{
+					"include": "#pointer-path"
+				}
+			]
+		},
+		"state-process": {
+			"name": "meta.structure.state-process.asl",
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "meta.structure.state-process.open.asl"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "meta.structure.state-process.end.asl"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#strings"
+				}
+			]
+		},
+		"pointer-path": {
+			"name": "meta.pointerpath.asl",
+			"begin": "\\b(?i)(byte[0-9]+|sbyte|byte|short|ushort|int|uint|long|ulong|float|double|bool|string[0-9]+)\\s(\\w+)",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.pointerpath.asl"
+				},
+				"2": {
+					"name": "variable.other.pointerpath.asl"
+				},
+				"3": {
+					"name": "punctuation.colon.asl"
+				}
+			},
+			"end": "(?:(\\;)|(\\n|\\r))",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.semicolon.asl"
+				},
+				"2": {
+					"name": "invalid.illegal.missingsemicolon.asl"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#strings"	
+				},
+				{
+					"match": "(\\;|,)",
+					"name": "punctuation.seperator.asl"
+				},
+				{
+					"include": "#constant-integer"
+				}
+			]
+		},
+		"constant-integer": {
+			"match": "\\b((?:0x|0X])[0-9a-fA-F]+|[0-9]+)",
+			"name": "constant.numeric.offset.asl"
+		},
+		"strings": {
+			"name": "string.quoted.double.asl",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.asl",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.block.asl",
+					"begin": "/\\*",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.asl"
+						}
+					},
+					"end": "\\*/",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.asl"
+						}
+					}
+				},
+				{
+					"begin": "(^\\s+)?(?=//)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.asl"
+						}
+					},
+					"end": "(?=$)",
+					"patterns": [
+						{
+							"name": "comment.block.documentation.asl",
+							"begin": "(?<!/)///(?!/)",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.comment.asl"
+								}
+							},
+							"end": "(?=$)",
+							"patterns": [
+								{
+									"include": "#xml-doc-comment"
+								}
+							]
+						},
+						{
+							"name": "comment.line.double-slash.asl",
+							"begin": "(?<!/)//(?:(?!/)|(?=//))",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.comment.asl"
+								}
+							},
+							"end": "(?=$)"
+						}
+					]
+				}
+			]
+		},
+		"action": {
+			"patterns": [
+				{
+					"name": "support.function.action.asl",
+					"match": "\\b(?i)(init|update|isLoading|gameTime|reset|split|startup|start|exit|shutdown)"
+				}
+			]
+		},
+		"action-code": {
+			"name": "meta.action-code.asl",
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+                    "name": "punctuation.bracket.open.asl"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.bracket.close.asl"
+				}
+			},
+			"patterns": [
+				{
+					"include": "source.csharp.asl"
+				}
+			]
+		}
+	}
+}
