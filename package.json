@@ -1,5 +1,5 @@
 {
-    "name": "asl-language",
+    "name": "asl-extension",
     "displayName": "Auto Splitting Language",
     "description": "Syntax highlighting for Auto Splitting Language",
     "version": "1.0.0",
@@ -13,12 +13,12 @@
     ],
     "license": "MIT",
     "bugs": {
-		"url": "https://github.com/B0sh/asl-lang/issues"
+		"url": "https://github.com/B0sh/asl-extension/issues"
 	},
-	"homepage": "https://github.com/B0sh/asl-lang/",
+	"homepage": "https://github.com/B0sh/asl-extension/",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/B0sh/asl-lang/blob/master/README.md"
+		"url": "https://github.com/B0sh/asl-extension/blob/master/README.md"
 	},
     "contributes": {
         "languages": [{
