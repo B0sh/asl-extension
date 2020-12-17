@@ -62,7 +62,7 @@
 		},
 		"pointer-path": {
 			"name": "meta.pointerpath.asl",
-			"begin": "\\b(?i)(byte[0-9]+|sbyte|byte|short|ushort|int|uint|long|ulong|float|double|bool|string[0-9]+)\\s(\\w+)",
+			"begin": "\\b(?i)(byte[0-9]+|sbyte|byte|short|ushort|int|uint|long|ulong|float|double|bool|string[0-9]+)\\s+(\\w+)",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.type.pointerpath.asl"
