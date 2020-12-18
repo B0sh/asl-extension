@@ -2,7 +2,7 @@
     "name": "asl-extension",
     "displayName": "Auto Splitting Language",
     "description": "Syntax highlighting for Auto Splitting Language",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "images/icon.png",
     "publisher": "B0sh",
     "engines": {
