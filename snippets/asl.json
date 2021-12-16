@@ -1,112 +1,454 @@
 {
-    "state": {
-        "prefix": "state",
-        "body": [
-            "state(\"${1:PROCESS_NAME}\", \"${2:VERSION_IDENTIFIER}\")",
-            "{",
-            "\t$3",
-            "}"
-        ],
-        "description": "Describes which game process the script is interested in."
-    },
-    "update": {
-        "prefix": "update",
-        "body": [
-            "update",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Generic Update"
-    },
-    "start": {
-        "prefix": "start",
-        "body": [
-            "start",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Automatic Timer Start"
-    },
-    "split": {
-        "prefix": "split",
-        "body": [
-            "split",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Automatic Splits"
-    },
-    "reset": {
-        "prefix": "reset",
-        "body": [
-            "reset",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Automatic Resets"
-    },
-    "isLoading": {
-        "prefix": "isLoading",
-        "body": [
-            "isLoading",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Load Time Removal"
-    },
-    "gameTime": {
-        "prefix": "gameTime",
-        "body": [
-            "gameTime",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Game Time"
-    },
-    "startup": {
-        "prefix": "startup",
-        "body": [
-            "startup",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Script Startup"
-    },
-    "shutdown": {
-        "prefix": "shutdown",
-        "body": [
-            "shutdown",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Script Shutdown"
-    },
-    "init": {
-        "prefix": "init",
-        "body": [
-            "init",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Script Initialization"
-    },
-    "exit": {
-        "prefix": "exit",
-        "body": [
-            "exit",
-            "{",
-            "\t$1",
-            "}"
-        ],
-        "description": "Game Exit"
-    }
+	"state descriptor": {
+		"prefix": "state",
+		"description": "Describes the process the script should connect to.",
+		"body": [
+			"state(\"${1:process}\")",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"state descriptor with version identifier": {
+		"prefix": ["stv", "state_version"],
+		"description": "Describes the process the script should connect to, along with a version identifier.",
+		"body": [
+			"state(\"${1:process}\", \"${2:version}\")",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"Pointer path in state descriptor": {
+		"prefix": ["sptr", "state_pointer"],
+		"description": [
+			"Creates a pointer path in the state descriptor to be used within the script.",
+			"When using Cheat Engine, be sure to enter the pointer's offsets from the bottom upwards."
+		],
+		"body": "${1:int} ${2:name} : \"${3:module}\", ${4:baseOffset}, ${5:offsets}; // ${6:description}"
+	},
+
+
+
+	"startup block": {
+		"prefix": ["su", "startup"],
+		"description": [
+			"This action runs when the script is first loaded.",
+			"This includes saving the current .asl file, where the script is reconnected."
+		],
+		"body": [
+			"startup",
+			"{",
+			"\t// vars.Log = (Action<object>)((output) => print(\"[${1:Game} ASL] \" + output);",
+			"",
+			"\t$0",
+			"}"
+		]
+	},
+	"Settings entry": {
+		"prefix": ["csett", "create_setting"],
+		"description": "Creates an entry to be added to the Auto Splitter's settings.",
+		"body": "settings.Add(\"${1:id}\", ${2:true}, \"${3:description}\");"
+	},
+	"Settings entry with parent": {
+		"prefix": ["csettp", "create_setting_parent"],
+		"description": "Creates an entry to be added to the Auto Splitter's settings.",
+		"body": "settings.Add(\"${1:id}\", ${2:true}, \"${3:description}\", \"${4:parent}\");"
+	},
+	"Settings tooltip": {
+		"prefix": ["tt", "tooltip"],
+		"description": "Creates a tooltip to assign to a setting.",
+		"body": "settings.SetToolTip(\"${1:id}\", \"${2:tooltip}\");"
+	},
+
+
+
+	"onStart block": {
+		"prefix": "onStart",
+		"Description": "This action runs when the timer is started, independent from whether the script or the user did it.",
+		"body": [
+			"onStart",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"onSplit block": {
+		"prefix": "onSplit",
+		"Description": "This action runs when a split is made, independent from whether the script or the user did it.",
+		"body": [
+			"onSplit",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"onReset block": {
+		"prefix": "onReset",
+		"Description": "This action runs when the timer is reset, independent from whether the script or the user did it.",
+		"body": [
+			"onReset",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+
+
+
+	"init block": {
+		"prefix": "init",
+		"description": "This action runs when the game has been found according to at least one of the state descriptors.",
+		"body": [
+			"init",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"update block": {
+		"prefix": "update",
+		"description": [
+			"This action runs first on every iteration.",
+			"Explicitly returning false disables all other actions."
+		],
+		"body": [
+			"update",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"update block with check for completion of task or thread": {
+		"prefix": ["updc", "update_check"],
+		"description": [
+			"This action runs first on every iteration.",
+			"Explicitly returning false disables all other actions.",
+			"Check whether a Task or Thread is still running; if so, don't let any logic continue."
+		],
+		"body": [
+			"update",
+			"{",
+			"\t// Use this check when making use of multi-threading or tasks.",
+			"\t// The script will not run until the vars is set to true.",
+			"\tif (!vars.${1:IsCompleted}) return false;",
+			"",
+			"\t$0",
+			"}"
+		]
+	},
+	"start block": {
+		"prefix": "start",
+		"description": [
+			"Returning true in this action will start the timer and run the onStart action.",
+			"This action will only run when the timer is not running."
+		],
+		"body": [
+			"start",
+			"{",
+			"\treturn ${0:condition};",
+			"}"
+		]
+	},
+	"split block": {
+		"prefix": "split",
+		"description": [
+			"Returning true in this action will trigger a split and run the onSplit action.",
+			"This action will only run when the timer is running."
+		],
+		"body": [
+			"split",
+			"{",
+			"\treturn ${0:condition};",
+			"}"
+		]
+	},
+	"reset block": {
+		"prefix": "reset",
+		"description": [
+			"Returning true in this action will reset the timer and run the onReset action.",
+			"This action will only run when the timer is running."
+		],
+		"body": [
+			"reset",
+			"{",
+			"\treturn ${0:condition};",
+			"}"
+		]
+	},
+	"gameTime block": {
+		"prefix": ["gt", "gameTime"],
+		"description": "Returning a TimeSpan object in this action will set the timer's game time to the return value.",
+		"body": [
+			"gameTime",
+			"{",
+			"\treturn TimeSpan.FromSeconds($0);",
+			"}"
+		]
+	},
+	"isLoading block": {
+		"prefix": ["il", "isLoading"],
+		"description": "Returning true in this action will pause the timer's game time.",
+		"body": [
+			"isLoading",
+			"{",
+			"\treturn ${0:condition};",
+			"}"
+		]
+	},
+	"exit block": {
+		"prefix": "exit",
+		"description": "This action is run when the currently attached process exits.",
+		"body": [
+			"exit",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"exit block with cancel of CancellationTokenSource": {
+		"prefix": ["exitc", "exit_cancel"],
+		"description": [
+			"This action is run when the currently attached process exits.",
+			"A specified CancellationTokenSource object can be canceled."
+		],
+		"body": [
+			"exit",
+			"{",
+			"\t// Use this when making use of multi-threading or tasks.",
+			"\t// The thread or task should stop running when the process exits.",
+			"\tvars.${1:CancelSource}.Cancel();$0",
+			"}"
+		]
+	},
+	"shutdown block": {
+		"prefix": ["sd", "shutdown"],
+		"description": [
+			"This action is run when the script is entirely disconnected from LiveSplit.",
+			"Examples include when the Auto Splitter is disabled, LiveSplit exits, the script path is changed, or the script is reloaded."
+		],
+		"body": [
+			"shutdown",
+			"{",
+			"\t$0",
+			"}"
+		]
+	},
+	"shutdown block with cancel of CancellationTokenSource": {
+		"prefix": ["sdc", "shutdown_cancel"],
+		"description": [
+			"This action is run when the script is entirely disconnected from LiveSplit.",
+			"Examples include when the Auto Splitter is disabled, LiveSplit exits, the script path is changed, or the script is reloaded.",
+			"A specified CancellationTokenSource object can be canceled."
+		],
+		"body": [
+			"shutdown",
+			"{",
+			"\t// Use this when making use of multi-threading or tasks.",
+			"\t// The thread or task should stop running when the process exits.",
+			"\tvars.${1:CancelSource}.Cancel();$0",
+			"}"
+		]
+	},
+
+
+
+	"creates a CancellationTokenSource object": {
+		"prefix": ["cts", "cancel_source"],
+		"description": "A CancellationTokenSource to be used when working with Threads or Tasks.",
+		"body": "vars.${1:CancelSource} = new CancellationTokenSource();"
+	},
+	"creates a Thread object": {
+		"prefix": "thread",
+		"description": "Creates and starts a Thread that runs independently of the LiveSplit process, not blocking the UI thread.",
+		"body": [
+			"// Threads which have an indeterminate runtime require a way to be canceled,",
+			"// otherwise the thread will continue running indefinitely.",
+			"// This could be the case when using infinite loops or looking for specific objects.",
+			"// Call Cancel() on a CancellationTokenSource when exit{} or shutdown{} run and use",
+			"// CancellationTokenSource.Token.IsCancellationRequested to exit a loop.",
+			"",
+			"vars.${1:IsCompleted} = false;",
+			"vars.${2:Thread} = new Thread(() =>",
+			"{",
+			"\t// Thread.Sleep(1000);",
+			"",
+			"\t$0",
+			"",
+			"\tvars.${1} = true;",
+			"});",
+			"",
+			"vars.${2}.Start();"
+		]
+	},
+	"creates a CancellationTokenSource object & a Thread object": {
+		"prefix": ["cth", "cthread"],
+		"description": [
+			"Creates and starts a Thread that runs independently of the LiveSplit process, not blocking the UI thread.",
+			"The CancellationToken should be used to exit all logic in the thread."
+		],
+		"body": [
+			"// Threads which have an indeterminate runtime require a way to be canceled,",
+			"// otherwise the thread will continue running indefinitely.",
+			"// This could be the case when using infinite loops or looking for specific objects.",
+			"// Call Cancel() on the CancellationTokenSource when exit{} or shutdown{} run and use",
+			"// CancellationTokenSource.Token.IsCancellationRequested to exit a loop.",
+			"",
+			"vars.${1:IsCompleted} = false;",
+			"vars.${2:CancelSource} = new CancellationTokenSource();",
+			"vars.${3:Thread} = new Thread(() =>",
+			"{",
+			"\t// Thread.Sleep(1000);",
+			"\t// var token = vars.${2}.Token;",
+			"",
+			"\t$0",
+			"",
+			"\tvars.${1} = true;",
+			"});",
+			"",
+			"vars.${3}.Start();"
+		]
+	},
+	"creates an asynchronous task": {
+		"prefix": "task",
+		"description": "Starts a task that runs asynchronously to the LiveSplit process, not blocking the UI thread.",
+		"body": [
+			"// Tasks which have an indeterminate runtime require a way to be canceled,",
+			"// otherwise the task will continue running indefinitely.",
+			"// This could be the case when using infinite loops or looking for specific objects.",
+			"// Call Cancel() on a CancellationTokenSource when exit{} or shutdown{} run and pass",
+			"// the CancellationTokenSource.Token object to the Task.",
+			"",
+			"vars.${1:IsCompleted} = false;",
+			"new System.Threading.Tasks.Task(async () =>",
+			"{",
+			"\t// await System.Threading.Tasks.Task.Delay(1000);",
+			"",
+			"\t$0",
+			"",
+			"\tvars.${1} = true;",
+			"}).Start();"
+		]
+	},
+	"creates a CancellationTokenSource object and an asynchronous task to run": {
+		"prefix": ["tcs", "task_cts"],
+		"description": [
+			"Creates a Task that runs asynchronously to the LiveSplit process, not blocking the UI thread.",
+			"The Task takes a CancellationToken, stopping the task when it is canceled."
+		],
+		"body": [
+			"// Tasks which have an indeterminate runtime require a way to be canceled,",
+			"// otherwise the task will continue running indefinitely.",
+			"// This could be the case when using infinite loops or looking for specific objects.",
+			"// Call Cancel() on the CancellationTokenSource when exit{} or shutdown{} run and pass",
+			"// the CancellationTokenSource.Token object to the Task.",
+			"",
+			"vars.${1:IsCompleted} = false;",
+			"vars.${2:CancelSource} = new CancellationTokenSource();",
+			"System.Threading.Tasks.Task.Run(async () =>",
+			"{",
+			"\t// await System.Threading.Tasks.Task.Delay(1000);",
+			"",
+			"\t$0",
+			"",
+			"\tvars.${1} = true;",
+			"}, vars.${2}.Token);"
+		]
+	},
+
+
+
+	"creates a DeepPointer object": {
+		"prefix": ["dp", "deep_pointer"],
+		"description": "Creates a DeepPointer object, often used when working with MemoryWatchers or more sophisticated memory-management.",
+		"body": "new DeepPointer(${0:pointerPath});"
+	},
+	"creates a MemoryWatcher object": {
+		"prefix": ["mw", "memwatcher", "memorywatcher"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:pointer});"
+	},
+	"creates a named MemoryWatcher object": {
+		"prefix": ["mwn", "memwatcher_named", "memorywatcher_named"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:pointer}) { Name = \"${2:name}\" };"
+	},
+	"creates a StringWatcher object": {
+		"prefix": ["sw", "string_watcher"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new StringWatcher(${0:pointer}, ${1:length});"
+	},
+	"creates a name StringWatcher object": {
+		"prefix": ["swn", "string_watcher"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new StringWatcher(${0:pointer}, ${1:length}) { Name = \"${2:name}\" };"
+	},
+	"creates a MemoryWatcherList object": {
+		"prefix": ["mwl", "mem_watcher_list"],
+		"description": "Creates a list of MemoryWatchers.",
+		"body": [
+			"// To access a watcher, each one must be given a name.",
+			"",
+			"vars.${1:Watchers} = new MemoryWatcherList",
+			"{",
+			"\t$0",
+			"};"
+		]
+	},
+	"creates a TimerModel object": {
+		"prefix": ["tm", "timer_model"],
+		"description": [
+			"Creates a TimerModel object reflecting the current timer's state.",
+			"Often used for unusual workarounds."
+		],
+		"body": "vars.${1:TimerModel} = new TimerModel { CurrentState = timer };"
+	},
+
+
+
+	"code snippet for printing a string": {
+		"prefix": ["cw", "print"],
+		"description": [
+			"Prints the specified string to the output.",
+			"Use TraceSpy or DebugView to read the output."
+		],
+		"body": "print(\"${0:output}\");"
+	},
+	"code snippet for using vars.Log": {
+		"prefix": "log",
+		"description": [
+			"Uses vars.Log to print any type of object to the output.",
+			"Use TraceSpy or DebugView to read the output."
+		],
+		"body": "vars.Log($0);"
+	},
+	"code snippet for reading an address at another address": {
+		"prefix": ["rptr", "readptr", "readpointer"],
+		"descriptions": "Reads an address at another specified address.",
+		"body": "game.ReadPointer(${1:address})"
+	},
+	"code snippet for reading a value at an address": {
+		"prefix": ["rv", "readvalue"],
+		"descriptions": "Reads a specified type value at a specified address.",
+		"body": "game.ReadValue<${1:int}>(${2:address})"
+	},
+	"code snippet for reading a string at an address": {
+		"prefix": ["rstr", "readstring"],
+		"descriptions": "Reads a string at a specified address.",
+		"body": "game.ReadString(${1:address}, ${2:length})"
+	}
 }
