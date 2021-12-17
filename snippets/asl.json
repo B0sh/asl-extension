@@ -293,11 +293,10 @@
 		"body": "new StringWatcher(${0:pointer}, ${1:length}) { Name = \"${2:name}\" };"
 	},
 	"creates a MemoryWatcherList object": {
-		"prefix": ["mwl", "mem_watcher_list"],
+		"prefix": ["mwl", "memwatcherlist", "memorywatcherlist"],
 		"description": "Creates a list of MemoryWatchers.",
 		"body": [
 			"// To access a watcher, each one must be given a name.",
-			"",
 			"vars.${1:Watchers} = new MemoryWatcherList",
 			"{",
 			"\t$0",

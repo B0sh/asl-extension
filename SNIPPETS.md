@@ -360,7 +360,6 @@ new StringWatcher({0:pointer}, {1:length}) { Name = "{2:name}" };
 *Use MemoryWatcherList[name] to access a watcher by its name.*
 ```cs
 // To access a watcher, each one must be given a name.
-
 vars.{1:Watchers} = new MemoryWatcherList
 {
 	{0}
