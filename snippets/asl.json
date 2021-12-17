@@ -253,6 +253,102 @@
 
 
 
+	"creates a DeepPointer object": {
+		"prefix": ["dp", "deep_pointer"],
+		"description": "Creates a DeepPointer object, often used when working with MemoryWatchers or more sophisticated memory-management.",
+		"body": "new DeepPointer(${0:pointerPath});"
+	},
+	"creates a MemoryWatcher object": {
+		"prefix": ["mw", "memwatcher", "memorywatcher"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:pointer});"
+	},
+	"creates a named MemoryWatcher object": {
+		"prefix": ["mwn", "memwatcher_named", "memorywatcher_named"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:pointer}) { Name = \"${2:name}\" };"
+	},
+	"creates a StringWatcher object": {
+		"prefix": ["sw", "string_watcher"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new StringWatcher(${0:pointer}, ${1:length});"
+	},
+	"creates a name StringWatcher object": {
+		"prefix": ["swn", "string_watcher"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new StringWatcher(${0:pointer}, ${1:length}) { Name = \"${2:name}\" };"
+	},
+	"creates a MemoryWatcherList object": {
+		"prefix": ["mwl", "mem_watcher_list"],
+		"description": "Creates a list of MemoryWatchers.",
+		"body": [
+			"// To access a watcher, each one must be given a name.",
+			"",
+			"vars.${1:Watchers} = new MemoryWatcherList",
+			"{",
+			"\t$0",
+			"};"
+		]
+	},
+	"creates a TimerModel object": {
+		"prefix": ["tm", "timer_model"],
+		"description": [
+			"Creates a TimerModel object reflecting the current timer's state.",
+			"Often used for unusual workarounds."
+		],
+		"body": "vars.${1:TimerModel} = new TimerModel { CurrentState = timer };"
+	},
+
+
+
+	"code snippet for printing a string": {
+		"prefix": ["cw", "print"],
+		"description": [
+			"Prints the specified string to the output.",
+			"Use TraceSpy or DebugView to read the output."
+		],
+		"body": "print(\"${0:output}\");"
+	},
+	"code snippet for using vars.Log": {
+		"prefix": "log",
+		"description": [
+			"Uses vars.Log to print any type of object to the output.",
+			"Use TraceSpy or DebugView to read the output."
+		],
+		"body": "vars.Log($0);"
+	},
+	"code snippet for reading an address at another address": {
+		"prefix": ["rptr", "readptr", "readpointer"],
+		"descriptions": "Reads an address at another specified address.",
+		"body": "game.ReadPointer(${1:address})"
+	},
+	"code snippet for reading a value at an address": {
+		"prefix": ["rv", "readvalue"],
+		"descriptions": "Reads a specified type value at a specified address.",
+		"body": "game.ReadValue<${1:int}>(${2:address})"
+	},
+	"code snippet for reading a string at an address": {
+		"prefix": ["rstr", "readstring"],
+		"descriptions": "Reads a string at a specified address.",
+		"body": "game.ReadString(${1:address}, ${2:length})"
+	},
+
+
+
 	"creates a CancellationTokenSource object": {
 		"prefix": ["cts", "cancel_source"],
 		"description": "A CancellationTokenSource to be used when working with Threads or Tasks.",
@@ -354,101 +450,5 @@
 			"\tvars.${1} = true;",
 			"}, vars.${2}.Token);"
 		]
-	},
-
-
-
-	"creates a DeepPointer object": {
-		"prefix": ["dp", "deep_pointer"],
-		"description": "Creates a DeepPointer object, often used when working with MemoryWatchers or more sophisticated memory-management.",
-		"body": "new DeepPointer(${0:pointerPath});"
-	},
-	"creates a MemoryWatcher object": {
-		"prefix": ["mw", "memwatcher", "memorywatcher"],
-		"description": [
-			"Creates a MemoryWatcher object, often used when building pointers manually.",
-			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object."
-		],
-		"body": "new MemoryWatcher<${1:int}>(${0:pointer});"
-	},
-	"creates a named MemoryWatcher object": {
-		"prefix": ["mwn", "memwatcher_named", "memorywatcher_named"],
-		"description": [
-			"Creates a MemoryWatcher object, often used when building pointers manually.",
-			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object.",
-			"Useful with MemoryWatcherLists."
-		],
-		"body": "new MemoryWatcher<${1:int}>(${0:pointer}) { Name = \"${2:name}\" };"
-	},
-	"creates a StringWatcher object": {
-		"prefix": ["sw", "string_watcher"],
-		"description": [
-			"Creates a StringWatcher object, often used when building pointers manually.",
-			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
-		],
-		"body": "new StringWatcher(${0:pointer}, ${1:length});"
-	},
-	"creates a name StringWatcher object": {
-		"prefix": ["swn", "string_watcher"],
-		"description": [
-			"Creates a StringWatcher object, often used when building pointers manually.",
-			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
-			"Useful with MemoryWatcherLists."
-		],
-		"body": "new StringWatcher(${0:pointer}, ${1:length}) { Name = \"${2:name}\" };"
-	},
-	"creates a MemoryWatcherList object": {
-		"prefix": ["mwl", "mem_watcher_list"],
-		"description": "Creates a list of MemoryWatchers.",
-		"body": [
-			"// To access a watcher, each one must be given a name.",
-			"",
-			"vars.${1:Watchers} = new MemoryWatcherList",
-			"{",
-			"\t$0",
-			"};"
-		]
-	},
-	"creates a TimerModel object": {
-		"prefix": ["tm", "timer_model"],
-		"description": [
-			"Creates a TimerModel object reflecting the current timer's state.",
-			"Often used for unusual workarounds."
-		],
-		"body": "vars.${1:TimerModel} = new TimerModel { CurrentState = timer };"
-	},
-
-
-
-	"code snippet for printing a string": {
-		"prefix": ["cw", "print"],
-		"description": [
-			"Prints the specified string to the output.",
-			"Use TraceSpy or DebugView to read the output."
-		],
-		"body": "print(\"${0:output}\");"
-	},
-	"code snippet for using vars.Log": {
-		"prefix": "log",
-		"description": [
-			"Uses vars.Log to print any type of object to the output.",
-			"Use TraceSpy or DebugView to read the output."
-		],
-		"body": "vars.Log($0);"
-	},
-	"code snippet for reading an address at another address": {
-		"prefix": ["rptr", "readptr", "readpointer"],
-		"descriptions": "Reads an address at another specified address.",
-		"body": "game.ReadPointer(${1:address})"
-	},
-	"code snippet for reading a value at an address": {
-		"prefix": ["rv", "readvalue"],
-		"descriptions": "Reads a specified type value at a specified address.",
-		"body": "game.ReadValue<${1:int}>(${2:address})"
-	},
-	"code snippet for reading a string at an address": {
-		"prefix": ["rstr", "readstring"],
-		"descriptions": "Reads a string at a specified address.",
-		"body": "game.ReadString(${1:address}, ${2:length})"
 	}
 }

@@ -14,7 +14,6 @@
 		{
 			"include": "#action-code"
 		}
-
 	],
 	"repository": {
 		"state": {
@@ -169,7 +168,7 @@
 			"patterns": [
 				{
 					"name": "support.function.action.asl",
-					"match": "\\b(?i)(init|update|isLoading|gameTime|reset|split|startup|start|exit|shutdown)"
+					"match": "\\b(?i)(startup|onStart|onSplit|onReset|init|update|start|split|reset|gameTime|isLoading|exit|shutdown)"
 				}
 			]
 		},
@@ -178,7 +177,7 @@
 			"begin": "\\{",
 			"beginCaptures": {
 				"0": {
-                    "name": "punctuation.bracket.open.asl"
+					"name": "punctuation.bracket.open.asl"
 				}
 			},
 			"end": "\\}",
