@@ -19,7 +19,7 @@
 			"}"
 		]
 	},
-	"Pointer path in state descriptor": {
+	"pointer path in state descriptor": {
 		"prefix": ["sptr", "state_pointer"],
 		"description": [
 			"Creates a pointer path in the state descriptor to be used within the script.",
@@ -39,20 +39,23 @@
 		"body": [
 			"startup",
 			"{",
-			"\t// vars.Log = (Action<object>)((output) => print(\"[${1:Game} ASL] \" + output);",
+			"\t// vars.Log = (Action<object>)((output) => print(\"[${1:Process} ASL] \" + output));",
 			"",
 			"\t$0",
 			"}"
 		]
 	},
-	"Settings entry": {
-		"prefix": ["csett", "create_setting"],
+	"settings entry": {
+		"prefix": "addsetting",
 		"description": "Creates an entry to be added to the Auto Splitter's settings.",
 		"body": "settings.Add(\"${1:id}\", ${2:true}, \"${3:description}\");"
 	},
-	"Settings entry with parent": {
-		"prefix": ["csettp", "create_setting_parent"],
-		"description": "Creates an entry to be added to the Auto Splitter's settings.",
+	"settings child entry": {
+		"prefix": ["addsc", "add_setting_child"],
+		"description": [
+			"Creates an entry to be added to the Auto Splitter's settings.",
+			"The setting will be a child to a parent settings entry."
+		],
 		"body": "settings.Add(\"${1:id}\", ${2:true}, \"${3:description}\", \"${4:parent}\");"
 	},
 	"Settings tooltip": {
@@ -98,7 +101,7 @@
 
 	"init block": {
 		"prefix": "init",
-		"description": "This action runs when the game has been found according to at least one of the state descriptors.",
+		"description": "This action runs when the process has been found according to at least one of the state descriptors.",
 		"body": [
 			"init",
 			"{",
@@ -115,24 +118,6 @@
 		"body": [
 			"update",
 			"{",
-			"\t$0",
-			"}"
-		]
-	},
-	"update block with check for completion of task or thread": {
-		"prefix": ["updc", "update_check"],
-		"description": [
-			"This action runs first on every iteration.",
-			"Explicitly returning false disables all other actions.",
-			"Check whether a Task or Thread is still running; if so, don't let any logic continue."
-		],
-		"body": [
-			"update",
-			"{",
-			"\t// Use this check when making use of multi-threading or tasks.",
-			"\t// The script will not run until the vars is set to true.",
-			"\tif (!vars.${1:IsCompleted}) return false;",
-			"",
 			"\t$0",
 			"}"
 		]
@@ -178,7 +163,10 @@
 	},
 	"gameTime block": {
 		"prefix": ["gt", "gameTime"],
-		"description": "Returning a TimeSpan object in this action will set the timer's game time to the return value.",
+		"description": [
+			"Returning a TimeSpan object in this action will set the timer's game time to the return value.",
+			"When using this block, it is usually recommended to also return true in isLoading."
+		],
 		"body": [
 			"gameTime",
 			"{",
@@ -206,21 +194,6 @@
 			"}"
 		]
 	},
-	"exit block with cancel of CancellationTokenSource": {
-		"prefix": ["exitc", "exit_cancel"],
-		"description": [
-			"This action is run when the currently attached process exits.",
-			"A specified CancellationTokenSource object can be canceled."
-		],
-		"body": [
-			"exit",
-			"{",
-			"\t// Use this when making use of multi-threading or tasks.",
-			"\t// The thread or task should stop running when the process exits.",
-			"\tvars.${1:CancelSource}.Cancel();$0",
-			"}"
-		]
-	},
 	"shutdown block": {
 		"prefix": ["sd", "shutdown"],
 		"description": [
@@ -234,83 +207,6 @@
 			"}"
 		]
 	},
-	"shutdown block with cancel of CancellationTokenSource": {
-		"prefix": ["sdc", "shutdown_cancel"],
-		"description": [
-			"This action is run when the script is entirely disconnected from LiveSplit.",
-			"Examples include when the Auto Splitter is disabled, LiveSplit exits, the script path is changed, or the script is reloaded.",
-			"A specified CancellationTokenSource object can be canceled."
-		],
-		"body": [
-			"shutdown",
-			"{",
-			"\t// Use this when making use of multi-threading or tasks.",
-			"\t// The thread or task should stop running when the process exits.",
-			"\tvars.${1:CancelSource}.Cancel();$0",
-			"}"
-		]
-	},
-
-
-
-	"creates a DeepPointer object": {
-		"prefix": ["dp", "deep_pointer"],
-		"description": "Creates a DeepPointer object, often used when working with MemoryWatchers or more sophisticated memory-management.",
-		"body": "new DeepPointer(${0:pointerPath});"
-	},
-	"creates a MemoryWatcher object": {
-		"prefix": ["mw", "memwatcher", "memorywatcher"],
-		"description": [
-			"Creates a MemoryWatcher object, often used when building pointers manually.",
-			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object."
-		],
-		"body": "new MemoryWatcher<${1:int}>(${0:pointer});"
-	},
-	"creates a named MemoryWatcher object": {
-		"prefix": ["mwn", "memwatcher_named", "memorywatcher_named"],
-		"description": [
-			"Creates a MemoryWatcher object, often used when building pointers manually.",
-			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object.",
-			"Useful with MemoryWatcherLists."
-		],
-		"body": "new MemoryWatcher<${1:int}>(${0:pointer}) { Name = \"${2:name}\" };"
-	},
-	"creates a StringWatcher object": {
-		"prefix": ["sw", "stringwatcher"],
-		"description": [
-			"Creates a StringWatcher object, often used when building pointers manually.",
-			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
-		],
-		"body": "new StringWatcher(${0:pointer}, ${1:length});"
-	},
-	"creates a name StringWatcher object": {
-		"prefix": ["swn", "stringwatcher_named"],
-		"description": [
-			"Creates a StringWatcher object, often used when building pointers manually.",
-			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
-			"Useful with MemoryWatcherLists."
-		],
-		"body": "new StringWatcher(${0:pointer}, ${1:length}) { Name = \"${2:name}\" };"
-	},
-	"creates a MemoryWatcherList object": {
-		"prefix": ["mwl", "memwatcherlist", "memorywatcherlist"],
-		"description": "Creates a list of MemoryWatchers.",
-		"body": [
-			"// To access a watcher, each one must be given a name.",
-			"vars.${1:Watchers} = new MemoryWatcherList",
-			"{",
-			"\t$0",
-			"};"
-		]
-	},
-	"creates a TimerModel object": {
-		"prefix": ["tm", "timer_model"],
-		"description": [
-			"Creates a TimerModel object reflecting the current timer's state.",
-			"Often used for unusual workarounds."
-		],
-		"body": "vars.${1:TimerModel} = new TimerModel { CurrentState = timer };"
-	},
 
 
 
@@ -320,7 +216,7 @@
 			"Prints the specified string to the output.",
 			"Use TraceSpy or DebugView to read the output."
 		],
-		"body": "print(\"${0}\");"
+		"body": "print(\"$0\");"
 	},
 	"code snippet for using vars.Log": {
 		"prefix": "log",
@@ -345,6 +241,116 @@
 		"descriptions": "Reads a string at a specified address.",
 		"body": "game.ReadString(${1:address}, ${2:length})"
 	},
+	"scan all MemoryPages in the connected process": {
+		"prefix": ["scanpages", "scanmemorypages"],
+		"description": "Creates a foreach loop over all MemoryPages currently loaded by the process, scanning a specified SigScanTarget on each of them.",
+		"body": [
+			"var ${1:result} = IntPtr.Zero;",
+			"foreach (var page in game.MemoryPages(all: ${2:false}))",
+			"{",
+			"\tvar scanner = new SignatureScanner(game, page.BaseAddress, (int)(page.RegionSize));",
+			"\tif ((${1} = scanner.Scan(${3:SigScanTarget})) != IntPtr.Zero)",
+			"\t\tbreak;",
+			"}"
+		]
+	},
+
+
+
+	"creates a DeepPointer object": {
+		"prefix": ["dp", "deep_pointer"],
+		"description": "Creates a DeepPointer object, often used when working with MemoryWatchers or more sophisticated memory-management.",
+		"body": "new DeepPointer(${0:pointerpath})"
+	},
+	"creates a MemoryWatcher object": {
+		"prefix": ["mw", "memwatcher", "memorywatcher"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:IntPtr or DeepPointer})"
+	},
+	"creates a named MemoryWatcher object": {
+		"prefix": ["mwn", "memwatcher_named", "memorywatcher_named"],
+		"description": [
+			"Creates a MemoryWatcher object, often used when building pointers manually.",
+			"A MemoryWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new MemoryWatcher<${1:int}>(${0:IntPtr or DeepPointer}) { Name = \"${2:name}\" }"
+	},
+	"creates a StringWatcher object": {
+		"prefix": ["sw", "stringwatcher"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
+		],
+		"body": "new StringWatcher(${0:IntPtr or DeepPointer}, ${1:length})"
+	},
+	"creates a name StringWatcher object": {
+		"prefix": ["swn", "stringwatcher_named"],
+		"description": [
+			"Creates a StringWatcher object, often used when building pointers manually.",
+			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
+			"Useful with MemoryWatcherLists."
+		],
+		"body": "new StringWatcher(${0:IntPtr or DeepPointer}, ${1:length}) { Name = \"${2:name}\" }"
+	},
+	"creates a MemoryWatcherList object": {
+		"prefix": ["mwl", "memwatcherlist", "memorywatcherlist"],
+		"description": "Creates a list of MemoryWatchers.",
+		"body": [
+			"// To access a watcher, each one must be given a name.",
+			"vars.${1:Watchers} = new MemoryWatcherList",
+			"{",
+			"\t$0",
+			"};"
+		]
+	},
+	"creates a SignatureScanner object": {
+		"prefix": ["scn", "scanner", "signaturescanner"],
+		"description": "Creates a SignatureScanner used to scan SigScanTargets.",
+		"body": [
+			"new SignatureScanner(${1:game}, ${2:module}.BaseAddress, ${2}.ModuleMemorySize);"
+		]
+	},
+	"creates a SigScanTarget object": {
+		"prefix": ["trg", "target", "sigscantarget"],
+		"description": "Creates a SigScanTarget to scan.",
+		"body": [
+			"new SigScanTarget(${1:0}, ${2:pattern});"
+		]
+	},
+	"creates a SigScanTarget object with a 64-bit OnFound property": {
+		"prefix": ["trgf_x64", "target_onfound_64bit", "sigscantarget_onfound_64bit"],
+		"description": [
+			"Creates a SigScanTarget to scan.",
+			"The OnFound function gets executed when the target was successfully found."
+		],
+		"body": [
+			"new SigScanTarget(${1:0}, ${2:pattern})",
+			"{ OnFound = (process, scanner, address) => address + 0x4 + process.ReadValue<int>(address) };"
+		]
+	},
+	"creates a SigScanTarget object with a 32-bit OnFound property": {
+		"prefix": ["trgf_x86", "target_onfound_32bit", "sigscantarget_onfound_32bit"],
+		"description": [
+			"Creates a SigScanTarget to scan.",
+			"The OnFound function gets executed when the target was successfully found."
+		],
+		"body": [
+			"new SigScanTarget(${1:0}, ${2:pattern})",
+			"{ OnFound = (process, scanner, address) => process.ReadPointer(address) };"
+		]
+	},
+	"creates a TimerModel object": {
+		"prefix": ["tm", "timer_model"],
+		"description": [
+			"Creates a TimerModel object reflecting the current timer's state.",
+			"Often used for unusual workarounds."
+		],
+		"body": "vars.${1:TimerModel} = new TimerModel { CurrentState = timer };"
+	},
 
 
 
@@ -357,6 +363,7 @@
 		"prefix": "thread",
 		"description": "Creates and starts a Thread that runs independently of the LiveSplit process, not blocking the UI thread.",
 		"body": [
+			"// WARNING: if an error is thrown in the thread, LiveSplit crashes!",
 			"// Threads which have an indeterminate runtime require a way to be canceled,",
 			"// otherwise the thread will continue running indefinitely.",
 			"// This could be the case when using infinite loops or looking for specific objects.",
@@ -364,34 +371,33 @@
 			"// CancellationTokenSource.Token.IsCancellationRequested to exit a loop.",
 			"",
 			"vars.${1:IsCompleted} = false;",
-			"vars.${2:Thread} = new Thread(() =>",
+			"new Thread(() =>",
 			"{",
 			"\t// Thread.Sleep(1000);",
 			"",
 			"\t$0",
 			"",
 			"\tvars.${1} = true;",
-			"});",
-			"",
-			"vars.${2}.Start();"
+			"}).Start();"
 		]
 	},
-	"creates a CancellationTokenSource object & a Thread object": {
-		"prefix": ["cth", "cthread"],
+	"creates a CancellationTokenSource object and a Thread object": {
+		"prefix": ["thcs", "thread_cts"],
 		"description": [
 			"Creates and starts a Thread that runs independently of the LiveSplit process, not blocking the UI thread.",
 			"The CancellationToken should be used to exit all logic in the thread."
 		],
 		"body": [
+			"// WARNING: if an error is thrown in the thread, LiveSplit crashes!",
 			"// Threads which have an indeterminate runtime require a way to be canceled,",
 			"// otherwise the thread will continue running indefinitely.",
 			"// This could be the case when using infinite loops or looking for specific objects.",
 			"// Call Cancel() on the CancellationTokenSource when exit{} or shutdown{} run and use",
-			"// CancellationTokenSource.Token.IsCancellationRequested to exit a loop.",
+			"// token.IsCancellationRequested to exit a loop.",
 			"",
 			"vars.${1:IsCompleted} = false;",
 			"vars.${2:CancelSource} = new CancellationTokenSource();",
-			"vars.${3:Thread} = new Thread(() =>",
+			"new Thread(() =>",
 			"{",
 			"\t// Thread.Sleep(1000);",
 			"\t// var token = vars.${2}.Token;",
@@ -399,15 +405,14 @@
 			"\t$0",
 			"",
 			"\tvars.${1} = true;",
-			"});",
-			"",
-			"vars.${3}.Start();"
+			"}).Start();"
 		]
 	},
 	"creates an asynchronous task": {
 		"prefix": "task",
 		"description": "Starts a task that runs asynchronously to the LiveSplit process, not blocking the UI thread.",
 		"body": [
+			"// WARNING: if an error is thrown in the task, LiveSplit crashes!",
 			"// Tasks which have an indeterminate runtime require a way to be canceled,",
 			"// otherwise the task will continue running indefinitely.",
 			"// This could be the case when using infinite loops or looking for specific objects.",
@@ -415,7 +420,7 @@
 			"// the CancellationTokenSource.Token object to the Task.",
 			"",
 			"vars.${1:IsCompleted} = false;",
-			"new System.Threading.Tasks.Task(async () =>",
+			"System.Threading.Tasks.Task.Run(async () =>",
 			"{",
 			"\t// await System.Threading.Tasks.Task.Delay(1000);",
 			"",
@@ -432,6 +437,7 @@
 			"The Task takes a CancellationToken, stopping the task when it is canceled."
 		],
 		"body": [
+			"// WARNING: if an error is thrown in the task, LiveSplit crashes!",
 			"// Tasks which have an indeterminate runtime require a way to be canceled,",
 			"// otherwise the task will continue running indefinitely.",
 			"// This could be the case when using infinite loops or looking for specific objects.",
@@ -440,14 +446,15 @@
 			"",
 			"vars.${1:IsCompleted} = false;",
 			"vars.${2:CancelSource} = new CancellationTokenSource();",
-			"System.Threading.Tasks.Task.Run(async () =>",
+			"System.Threading.Tasks.Task.Run((Action)(async () =>",
 			"{",
 			"\t// await System.Threading.Tasks.Task.Delay(1000);",
+			"\t// var token = vars.${2}.Token;",
 			"",
 			"\t$0",
 			"",
 			"\tvars.${1} = true;",
-			"}, vars.${2}.Token);"
+			"}), vars.${2}.Token);"
 		]
 	}
 }

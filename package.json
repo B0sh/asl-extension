@@ -42,6 +42,14 @@
 			{
 				"language": "asl",
 				"path": "./snippets/asl.json"
+			},
+			{
+				"language": "asl",
+				"path": "./snippets/asl-full-scripts.json"
+			},
+			{
+				"language": "asl",
+				"path": "./snippets/csharp.json"
 			}
 		]
 	}
