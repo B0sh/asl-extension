@@ -10,7 +10,7 @@ Adds Visual Studio Code support for LiveSplit's Auto Splitting Language (ASL). A
 - [ASL Documentation](https://github.com/LiveSplit/LiveSplit.AutoSplitters/blob/master/README.md)
 - [Speedrun Tool Development Discord](https://discord.gg/RYeaux3K4T)
 - [List of ASL Scripts](https://fatalis.pw/livesplit/asl-list) to learn from, automatically created from the [Auto Splitters XML](https://github.com/LiveSplit/LiveSplit.AutoSplitters/blob/master/LiveSplit.AutoSplitters.xml) and filterable by different criteria
-- [Available Code Snippets here](../master/SNIPPETS.md)
+- [Available Code Snippets](../master/SNIPPETS.md)
 
 ---
 *This extension is not affiliated with LiveSplit.*
