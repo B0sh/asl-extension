@@ -276,7 +276,7 @@
 		"body": "new MemoryWatcher<${1:int}>(${0:pointer}) { Name = \"${2:name}\" };"
 	},
 	"creates a StringWatcher object": {
-		"prefix": ["sw", "string_watcher"],
+		"prefix": ["sw", "stringwatcher"],
 		"description": [
 			"Creates a StringWatcher object, often used when building pointers manually.",
 			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object."
@@ -284,7 +284,7 @@
 		"body": "new StringWatcher(${0:pointer}, ${1:length});"
 	},
 	"creates a name StringWatcher object": {
-		"prefix": ["swn", "string_watcher"],
+		"prefix": ["swn", "stringwatcher_named"],
 		"description": [
 			"Creates a StringWatcher object, often used when building pointers manually.",
 			"A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.",
@@ -321,7 +321,7 @@
 			"Prints the specified string to the output.",
 			"Use TraceSpy or DebugView to read the output."
 		],
-		"body": "print(\"${0:output}\");"
+		"body": "print(\"${0}\");"
 	},
 	"code snippet for using vars.Log": {
 		"prefix": "log",

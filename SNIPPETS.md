@@ -269,7 +269,7 @@ shutdown
 *Prints the specified string to the output.*  
 *Use TraceSpy or DebugView to read the output.*
 ```cs
-print("{0:output}");
+print("{0}");
 ```
 
 ---
@@ -335,7 +335,7 @@ new MemoryWatcher<{1:int}>({0:pointer}) { Name = "{2:name}" };
 ```
 
 ---
-#### `sw`, `string_watcher`
+#### `sw`, `stringwatcher`
 
 *Creates a StringWatcher object, often used when building pointers manually.*  
 *A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.*
@@ -344,7 +344,7 @@ new StringWatcher({0:pointer}, {1:length});
 ```
 
 ---
-#### `sw`, `string_watcher`
+#### `swn`, `stringwatcher_named`
 
 *Creates a StringWatcher object, often used when building pointers manually.*  
 *A StringWatcher's first parameter is either an IntPtr or a DeepPointer object.*  
