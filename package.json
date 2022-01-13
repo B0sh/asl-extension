@@ -21,12 +21,19 @@
 		"url": "https://github.com/B0sh/asl-extension/blob/master/README.md"
 	},
 	"contributes": {
-		"languages": [{
-			"id": "asl",
-			"aliases": ["Auto Splitting Language", "asl"],
-			"extensions": [".asl"],
-			"configuration": "./language-configuration.json"
-		}],
+		"languages": [
+			{
+				"id": "asl",
+				"aliases": [
+					"Auto Splitting Language",
+					"asl"
+				],
+				"extensions": [
+					".asl"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
 		"grammars": [
 			{
 				"language": "asl",
@@ -52,5 +59,6 @@
 				"path": "./snippets/csharp.json"
 			}
 		]
-	}
+	},
+	"dependencies": {}
 }
