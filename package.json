@@ -1,53 +1,56 @@
 {
-    "name": "asl-extension",
-    "displayName": "Auto Splitting Language",
-    "description": "Syntax highlighting for Auto Splitting Language",
-    "version": "1.0.1",
-    "icon": "images/icon.png",
-    "publisher": "B0sh",
-    "engines": {
-        "vscode": "^1.42.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "license": "MIT",
-    "bugs": {
+	"name": "asl-extension",
+	"displayName": "Auto Splitting Language",
+	"description": "Syntax highlighting for LiveSplit's Auto Splitting Language.",
+	"version": "1.1.0",
+	"icon": "images/icon.png",
+	"publisher": "B0sh",
+	"engines": {
+		"vscode": "^1.42.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"license": "MIT",
+	"bugs": {
 		"url": "https://github.com/B0sh/asl-extension/issues"
 	},
-	"homepage": "https://github.com/B0sh/asl-extension/",
+	"homepage": "https://github.com/B0sh/asl-extension",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/B0sh/asl-extension/blob/master/README.md"
 	},
-    "contributes": {
-        "languages": [{
-            "id": "asl",
-            "aliases": [
-                "Auto Splitting Language", 
-                "asl"
-            ],
-            "extensions": [
-                ".asl"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [
-            {
-                "language": "asl",
-                "scopeName": "source.asl",
-                "path": "./syntaxes/asl.tmLanguage.json"
-            },
-            {
-                "scopeName": "source.csharp.asl",
-                "path": "./syntaxes/csharp.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "asl",
-                "path": "./snippets/asl.json"
-            }
-        ]
-    }
+	"contributes": {
+		"languages": [{
+			"id": "asl",
+			"aliases": ["Auto Splitting Language", "asl"],
+			"extensions": [".asl"],
+			"configuration": "./language-configuration.json"
+		}],
+		"grammars": [
+			{
+				"language": "asl",
+				"scopeName": "source.asl",
+				"path": "./syntaxes/asl.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.csharp.asl",
+				"path": "./syntaxes/csharp.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "asl",
+				"path": "./snippets/asl.json"
+			},
+			{
+				"language": "asl",
+				"path": "./snippets/asl-full-scripts.json"
+			},
+			{
+				"language": "asl",
+				"path": "./snippets/csharp.json"
+			}
+		]
+	}
 }
